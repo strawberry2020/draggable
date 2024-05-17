@@ -8,7 +8,7 @@
     <style>
         .container {
             width: 650px;
-            height: 300px;
+            height: 200px;
             background-color: lightgray;
         }
 
@@ -66,16 +66,28 @@
 </head>
 
 <body>
-    <div class="subs">
-        <div class="container sub" key="2" max="1"></div>
-        <div class="container sub" key="3" max="1"></div>
-        <div class="container sub" key="4" max="1"></div>
-        <div class="container sub" key="5" max="1"></div>
-        <div class="container sub" key="6" max="1"></div>
-        <div class="container sub" key="7" max="1"></div>
+    <div style="display: flex;">
+        <div class="subs" style="margin-right: 20px;">
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+        </div>
+
+        <div class="subs">
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+            <div class="container sub" max="1"></div>
+        </div>
     </div>
 
-    <div class="container main" key="1">
+
+    <div class="container main">
         <div class="item" draggable="true">1</div>
         <div class="item" draggable="true">2</div>
         <div class="item" draggable="true">3</div>
@@ -86,6 +98,12 @@
         <div class="item" draggable="true">8</div>
         <div class="item" draggable="true">9</div>
     </div>
+
+    <div class="container main" max="3">
+        <div class="item" draggable="true">0</div>
+    </div>
+    <h3>最多可以放3个</h3>
+
 
     <script>
 
@@ -122,24 +140,23 @@
                         return false;
                     } else {
                         container.appendChild(selfNode);
+                        return false;
                     }
                 }
 
                 // 如果拖入到自己或父容器，不处理
                 if (e.target === selfNode || e.target === container) return false;
 
+
                 // 处理节点位置排序
                 const list = Array.from(container.children);
                 const selfIndex = list.indexOf(selfNode);
                 const targetIndex = list.indexOf(e.target);
 
-                // 节点来自其他容器
-                if (selfIndex === -1) {
+                // 向下 或 向右 拖拽
+                if (selfIndex < targetIndex) {
                     container.insertBefore(selfNode, e.target.nextElementSibling);
-                // 向下 或 向左 拖拽 
-                } else if (selfIndex < targetIndex) {
-                    container.insertBefore(selfNode, e.target.nextElementSibling);
-                 // 向上 或 向右 拖拽 
+                    // 向上 或 向左 拖拽 
                 } else {
                     container.insertBefore(selfNode, e.target);
                 }
